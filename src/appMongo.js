@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import displayRoutes from "express-routemap";
 import { engine } from "express-handlebars";
-import { NODE_ENV, PORT, API_VERSION, CURSO, DB_CNN } from "./config/config.js";
+import { NODE_ENV, PORT, API_VERSION, CURSO, DB_CNN, SECRET_SESSION} from "./config/config.js";
 import { mongoDBConnection } from "./db/mongo.config.js";
 import __dirname from './utils.js'
 import cookieParser from "cookie-parser";
@@ -60,7 +60,7 @@ class AppMongo {
           mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
           ttl: 120
         }),
-        secret: "secretS3ss10n",
+        secret: SECRET_SESSION,
         resave: false,
         saveUninitialized: false,
       })

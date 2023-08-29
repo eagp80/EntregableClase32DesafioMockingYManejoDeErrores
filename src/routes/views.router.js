@@ -1,6 +1,5 @@
 import {Router} from "express";
 import ProductManager from '../dao/managers/productManager.js';
-import authMdw from "../middleware/authorization.middleware.js";
 
 
 const productManager = new ProductManager("files/products.json");

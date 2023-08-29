@@ -4,6 +4,9 @@ import userModel from "../dao/models/user.model.js";
 import session from "express-session";
 import { API_VERSION } from "../config/config.js";
 import passport from "passport";
+import { passportCall } from "../utils/jwt.js";
+import handlePolicies from "../middleware/handle-policies.middleware.js";
+
 
 
 class SessionViewsRoutes {
@@ -15,7 +18,7 @@ class SessionViewsRoutes {
     this.initSessionViewsRoutes();
   }
   initSessionViewsRoutes(){
-    // ****** ruta directa
+    // ****** rutas directas ejemplo http://localhost:8000/api/v1/login
 
     this.router.get(`${this.path}`, async (req, res) =>{
       return res.redirect(`/api/${API_VERSION}/login`);
@@ -39,8 +42,10 @@ class SessionViewsRoutes {
     })
 
 // TODO: Agregar middleware AUTH
-    this.router.get(`${this.path}profile`,authMdw, async (req, res) =>{
-      //algo
+    this.router.get(`${this.path}profile`,
+    [passportCall("jwt"), 
+    handlePolicies(["USER", "ADMIN", "GOLD", "SILVER", "BRONCE"])], 
+    async (req, res) =>{
       try{
         const user = req.session.user?._doc || "usuario no logueado";
         console.log("🚀 ~ file: sessionViews.routes.js:38 ~ SessionViewsRoutes ~ this.router.get ~ user:", user)

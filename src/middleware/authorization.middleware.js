@@ -1,4 +1,3 @@
-import { API_VERSION } from "../config/config.js";
 
 const authorization = (role) => {
   return async (req, res, next) => {

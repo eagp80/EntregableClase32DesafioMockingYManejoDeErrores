@@ -99,6 +99,7 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
           email,
           role: findUser.role,
           id: findUser._id,
+          cart: findUser.cart,
         };
     
         const token = await generateJWT({ ...signUser });
@@ -111,12 +112,12 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
           ...signUser,
         };
         console.log(req.user);
-        // TODO: RESPUESTA DEL TOKEN ALMACENADO EN AL COOKIE
+        // TODO: RESPUESTA DEL TOKEN ALMACENADO EN LA COOKIE
          res.cookie("token", token, { maxAge: 1000000, httpOnly: true });
         return res.send("login sucess with jwt and cookie");
+        return res.redirect(`../views/products`)//*****activatr este depues***/
     
         return res.json({ message: `welcome $${email},login success`, token });//para postman
-        return res.redirect(`../views/products`)//*****activatr este depues***/
     
         return res.render("profile", {//OJO OJO OJO
           last_name: req.session?.user?.last_name || findUser.last_name,
@@ -179,6 +180,7 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
         email,
         role: findUser.role,
         id: findUser._id,
+        cart: findUser.cart
       };
       const token = await generateJWT({ ...signUser });
 

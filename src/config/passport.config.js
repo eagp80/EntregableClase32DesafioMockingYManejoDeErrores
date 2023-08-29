@@ -8,7 +8,12 @@ import { createHashValue, isValidPasswd } from "../utils/encrypt.js";
 import jwt from "passport-jwt";
 import ROLES from "../constantes/role.js";
 import { SECRET_JWT, cookieExtractor } from "../utils/jwt.js";
+import { Schema, model, Types } from "mongoose";
+import CartsMongoManager from "../dao/managers/cartMongo.manager.js";
 
+const { ObjectId } = Types;
+
+const cartsMongoManager = new CartsMongoManager();
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
@@ -32,6 +37,19 @@ const initializePassport = () => {
           console.log("User already exist");
           return done(null,false); // ya existe usuario no puedes conttinuar
         }
+        const cartMongo = {"products": []};
+        const newCartMongo = await cartsMongoManager.createCartMongo(cartMongo);
+        if (!newCartMongo) {
+          return res.json({
+            message: `the cartMongo not created`,
+          });
+        }
+        console.log("nuevo carro para este usuario", newCartMongo);
+
+        const idCartUser = newCartMongo._id;
+        const cartNewId= new ObjectId(idCartUser);
+
+   
         const newUser = {
           first_name,
           last_name,
@@ -39,6 +57,7 @@ const initializePassport = () => {
           age,
           password: await createHashValue(password),
           role,
+          cart: cartNewId,
         };
         let result = await userModel.create(newUser);
         return done(null,result);

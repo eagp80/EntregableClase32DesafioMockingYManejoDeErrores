@@ -30,7 +30,10 @@ class ViewsMongoRoutes {
     //*************************************************************************************
     //*************************************************************************************/
 
-    this.router.get(`${this.path}/carts`, async (req, res) => {
+    this.router.get(`${this.path}/carts`, 
+    [passportCall("jwt"), 
+    handlePolicies(["USER", "ADMIN", "GOLD", "SILVER", "BRONCE"])],
+     async (req, res) => {
       // let courses = [];
       let i = 0;
       const cartsMongo = await this.cartsMongoManager.getAllCartsMongoPopulate();
@@ -62,7 +65,10 @@ class ViewsMongoRoutes {
     //*************************************************************************************
     //*************************************************************************************
     
-    this.router.get(`${this.path}/carts/:cid`, async (req, res) => {
+    this.router.get(`${this.path}/carts/:cid`, 
+    [passportCall("jwt"), 
+    handlePolicies(["USER", "ADMIN", "GOLD", "SILVER", "BRONCE"])],
+     async (req, res) => {
       try {
         // TODO: HACER VALIDACIONES *
         const cid=req.params.cid;
@@ -113,6 +119,9 @@ class ViewsMongoRoutes {
     handlePolicies(["USER", "ADMIN", "GOLD", "SILVER", "BRONCE"])], 
     async (req, res) => {//
       try {
+        //obtener el carrito asosiado al usuario y ponerselo en linea 133 a CartOwn
+        const cartUser = req.user.cart??req.user.user.cart;
+
         const { page = 1, limit = 10, query, sort } = req.query;
         let q = {};
         let qString = "";       
@@ -120,7 +129,7 @@ class ViewsMongoRoutes {
         let sString = "";
         let url1="";
         let url2="";
-        let cartOwn = `http://localhost:${PORT}/api/${API_VERSION}/carts/649dd00d2f44220462505662/products/`;
+        let cartOwn = `http://localhost:${PORT}/api/${API_VERSION}/carts/${cartUser}/products/`;
 
         if (sort) {
           s = JSON.parse(sort);
@@ -192,6 +201,7 @@ class ViewsMongoRoutes {
         );
       }
     });
+    
     this.router.get(`${this.path}/*`, async (req,res)=>{
       res.status(404).send('Error: algo mal en la ruta escrita');
     })
