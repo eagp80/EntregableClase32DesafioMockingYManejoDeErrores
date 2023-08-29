@@ -44,7 +44,6 @@ const initializePassport = () => {
             message: `the cartMongo not created`,
           });
         }
-        console.log("nuevo carro para este usuario", newCartMongo);
 
         const idCartUser = newCartMongo._id;
         const cartNewId= new ObjectId(idCartUser);
@@ -85,6 +84,16 @@ const initializePassport = () => {
           
           if (!user) {
             console.log("entro a addNewUser");
+            const cartMongo = {"products": []};
+            const newCartMongo = await cartsMongoManager.createCartMongo(cartMongo);
+             if (!newCartMongo) {
+             return res.json({
+            message: `the cartMongo not created`,
+            });
+            }
+            const idCartUser = newCartMongo._id;
+            const cartNewId= new ObjectId(idCartUser);
+
             let addNewUser = {
               first_name: profile._json.name,
               last_name: "",
@@ -92,6 +101,7 @@ const initializePassport = () => {
               age: 0,
               password: "",
               role: "USER",
+              cart: cartNewId,
             };
             let newUser = await userModel.create(addNewUser);
             done(null, newUser);

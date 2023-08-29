@@ -119,7 +119,7 @@ class ViewsMongoRoutes {
     handlePolicies(["USER", "ADMIN", "GOLD", "SILVER", "BRONCE"])], 
     async (req, res) => {//
       try {
-        //obtener el carrito asosiado al usuario y ponerselo en linea 133 a CartOwn
+        //obtener el carrito asosiado al usuario y ponerselo en linea 132s a CartOwn
         const cartUser = req.user.cart??req.user.user.cart;
 
         const { page = 1, limit = 10, query, sort } = req.query;
