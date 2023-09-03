@@ -15,6 +15,9 @@
 
 ### Como usar la app:
 <h2> Ruta de mocking, generando 50 productos con faker en localhost:8081/mockingproducts </h2>
+
+<h2> Ruta de creacion de producto con postmnan mediante metodo post y raw json http://localhost:8000/api/v1/products/</h2>
+<h2>La ruta anterior valida si las propiedades requeridas del producto a crear  son enviadas  y envia mensaje personalizado con error-handler y Http-Status-Code</h2>
 <h2> Ruta de inicio, de entrada a la api:   </h2>
 <h4> http://localhost:8000/api/v1/  la cual redirige al login </h4>
 
