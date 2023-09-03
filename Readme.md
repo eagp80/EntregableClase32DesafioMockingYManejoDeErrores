@@ -4,6 +4,12 @@
         - Ruta de inicio, de entrada a la api (redirige al login): 
         http://localhost:8000/api/v1/
 
+        - Ruta de mocking, generando 50 productos con faker en localhost:8081/mockingproducts.
+
+        - Ruta de creacion de producto con postmnan mediante metodo post y raw json http://localhost:8000/api/v1/products/ .
+        
+        - La ruta anterior valida si las propiedades requeridas del producto a crear  son enviadas  y envia mensaje personalizado con error-handler y Http-Status-Code.
+
         - Ruta de usuario actual logueado (muestra usuario examinando token):
         http://localhost:8000/api/v1/session/current
 
