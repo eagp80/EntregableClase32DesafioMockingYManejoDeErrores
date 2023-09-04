@@ -61,7 +61,7 @@ class ProductsMongoRoutes {//no es un Router pero adentro tiene uno
       }
     });
 
-    //*******Crear  un producto pasando sus popiedade (clave:valor por el body desde postman********** */
+    //*******Crear  un producto pasando sus popiedades (clave:valor por el body desde postman********** */
     //*********************************************************************************** */
     this.router.post(`${this.path}`, async (req, res) => {
       try {
@@ -88,7 +88,7 @@ class ProductsMongoRoutes {//no es un Router pero adentro tiene uno
           paramsInvalids.push("category");
         }
         if(paramsInvalids.length>0){
-          paramsInvalids.forEach((param)=> text=text+" "+param+","     ); 
+          paramsInvalids.forEach((param)=> text=text+" "+param+"," ); 
           return httpResp.BadRequest(res, `missing ${text} in body`, req.body);
         }
 
@@ -96,19 +96,21 @@ class ProductsMongoRoutes {//no es un Router pero adentro tiene uno
 
         // TODO REVISANDO SI EL producto YA FUE CREADO ANTERIOMENTE
         const newProductMongo = await this.productMongoManager.createProductMongo(productMongoBody);
-        return res.status(201).json({
-          message: `productMongo created successfully`,
-          productMongo: newProductMongo,
-        });
+        return httpResp.OK(res,`productMongo created successfully`,newProductMongo);
+        // return res.status(201).json({
+        //   message: `productMongo created successfully`,
+        //   productMongo: newProductMongo,
+        // });
       } catch (error) {
         console.log(
           "🚀 ~ file: productsMongo.routes.js:79 ~ ProductsMongoRoutes ~ this.router.post ~ error:",
           error
         );
         //recibe tambiem el catch de createProductMongo
-         return res.status(400).json({
-            message: error.message ?? error            
-          });
+        return httpResp.Error(res,error.message ?? error , error)
+        //  return res.status(400).json({
+        //     message: error.message ?? error            
+        //   });
       }
     });
 

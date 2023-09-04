@@ -53,8 +53,8 @@ class ViewsMongoRoutes {
 
         }
       })
-      console.log(JSON.stringify(cartsMongoMapped));    
-      cartsMongoMapped.map(item =>  console.log("Carrito:",item.i,item.products));     
+      // console.log(JSON.stringify(cartsMongoMapped));    
+      // cartsMongoMapped.map(item =>  console.log("Carrito:",item.i,item.products));     
       res.render("carts", { cartsMongo: cartsMongoMapped });
     });
 
