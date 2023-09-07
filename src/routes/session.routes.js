@@ -99,6 +99,7 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
           last_name: findUser.last_name,  
           first_name: findUser.first_name,  
           email,
+          age: findUser.age,
           role: findUser.role,
           id: findUser._id,
           cart: findUser.cart,
