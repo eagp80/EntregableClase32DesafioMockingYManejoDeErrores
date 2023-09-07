@@ -96,6 +96,8 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
         // };
         //req.session.user=a._doc; //se hace asi porque los tres puntitos traen un monton de info incluyendo objeto _doc donde viene el user
         const signUser = {
+          last_name: findUser.last_name,  
+          first_name: findUser.first_name,  
           email,
           role: findUser.role,
           id: findUser._id,
@@ -171,7 +173,7 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
     this.router.get(`${this.path}/githubcallback`, passport.authenticate('github',{failureRedirect:'/api/v1/login'}), async (req,res)=>{
       req.session.user=req.user;
       req.user.user=req.user;
-      console.log("entre a github/callback");
+      console.log("entre a githubcallback");
       console.log(req.user);
       let email = req.user.email;
       const findUser = await userModel.findOne({ email });
